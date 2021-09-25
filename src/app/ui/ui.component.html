@@ -1,0 +1,71 @@
+<h1 style="font-family: Georgia, 'Times New Roman', Times, serif;">Currency Exchange
+</h1>
+
+<div id="mainDiv">
+  <form class="form-inline" id="date">
+    <div class="form-group">
+      <div class="input-group">
+        <input class="form-control" name="dp" [(ngModel)]="selectedDate" ngbDatepicker #d="ngbDatepicker"
+          style="text-align: center;">
+        <div class="input-group-append">
+          <button class="btn btn-success" (click)="d.toggle()" type="button">🗓</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+
+
+
+
+  <div>
+    <div (click)="selectCurrencyMethod(currency)" id="cardDivId{{currency.id}}"
+      *ngFor="let currency of selectedCurrencies" class="cardDiv">
+      <img [src]="currency.steagulTarii" width="20%" heigth="20%">
+      <span class="p-3">{{currency.simbol}}</span>
+      <button id="closeBtn" (click)="closeDiv(currency)" class="btn btn-danger">x</button>
+      <div class="form-group mb-3 p-3" style="display: inline-block;">
+        <input (ngModelChange)="selectCurrencyMethod(currency)" [(ngModel)]="currency.vMultiplicata"
+          id="inputValutaDeComparat" name="inputValutaDeComparat" type="text">
+      </div><br>
+      <span style="margin-left: 30%;">{{currency.abreviereDenumireValuta}} - </span>
+      <span>{{currency.denumireValuta}}</span>
+      <p style="padding-left: 15%;">1 {{currency.abreviereDenumireValuta}} = {{currency.vRaportataLaValutaSelectata}}
+        {{selectedCurrency.abreviereDenumireValuta}}</p>
+    </div>
+
+
+    <div id="modal">
+      <button id="btnAddCurrency" class="btn btn-lg btn-outline-primary" (click)="open(mymodal)">Add currency</button>
+
+      <ng-template #mymodal let-modal id="modal">
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Add new currencies</h4>
+          <button type="button" class="close btn btn-danger" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <button (click)="selectAll()" id="btnSelectAll" class="btn btn-success">Select all</button>
+          <button (click)="deselectAll()" id="btnSelectAll" class="btn btn-danger">Deselect all</button>
+
+          <div (click)="addToSelectedCurrenciesForAddToArray(currency)" *ngFor="let currency of allCurrencies"
+            class="cardDivAddList">
+            <div *ngIf="checkIfExists(currency)" id="ifSelected">✓
+            </div>
+            <img [src]="currency.steagulTarii">
+            <span class="p-3">{{currency.simbol}}</span>
+            <span>{{currency.abreviereDenumireValuta}} - </span>
+            <span>{{currency.denumireValuta}}</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark w-100 h-10" id="btnAddAll" (click)="addAllToArray()"
+            (click)="modal.close('Save click')">Add selected currencies</button>
+
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+</div>
