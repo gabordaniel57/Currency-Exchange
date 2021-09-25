@@ -47,12 +47,6 @@ img {
 #date {
   margin-bottom: 3%;
 }
-.displayTrue {
-  display: block;
-}
-.displayNone {
-  display: none;
-}
 
 #inputValutaDeComparat {
   width: 90%;
@@ -79,14 +73,17 @@ img {
 }
 #btnAddCurrency {
   width: 50%;
-  margin-left: 26%;
+  margin-left: 22%;
   margin-bottom: 1%;
+}
+#containerCurrencies {
+  margin-left: 6%;
 }
 
 @media only screen and (min-width: 900px) {
   #btnAddCurrency {
     width: 60%;
-    margin-left: 20%;
+    margin-left: 18%;
   }
 }
 
@@ -133,5 +130,8 @@ img {
   #btnSelectAll {
     width: 100%;
     margin: 0;
+  }
+  #containerCurrencies {
+    margin-left: 0;
   }
 }

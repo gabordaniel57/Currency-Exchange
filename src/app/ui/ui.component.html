@@ -15,10 +15,7 @@
   </form>
 
 
-
-
-
-  <div>
+  <div id="containerCurrencies">
     <div (click)="selectCurrencyMethod(currency)" id="cardDivId{{currency.id}}"
       *ngFor="let currency of selectedCurrencies" class="cardDiv">
       <img [src]="currency.steagulTarii" width="20%" heigth="20%">
@@ -30,14 +27,12 @@
       </div><br>
       <span style="margin-left: 30%;">{{currency.abreviereDenumireValuta}} - </span>
       <span>{{currency.denumireValuta}}</span>
-      <p style="padding-left: 15%;">1 {{currency.abreviereDenumireValuta}} = {{currency.vRaportataLaValutaSelectata}}
+      <p style="padding-left: 30%; font-family: Arial, Helvetica, sans-serif;">1 {{currency.abreviereDenumireValuta}} = {{currency.vRaportataLaValutaSelectata}}
         {{selectedCurrency.abreviereDenumireValuta}}</p>
     </div>
 
-
     <div id="modal">
       <button id="btnAddCurrency" class="btn btn-lg btn-outline-primary" (click)="open(mymodal)">Add currency</button>
-
       <ng-template #mymodal let-modal id="modal">
         <div class="modal-header">
           <h4 class="modal-title" id="modal-basic-title">Add new currencies</h4>
@@ -62,7 +57,6 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-dark w-100 h-10" id="btnAddAll" (click)="addAllToArray()"
             (click)="modal.close('Save click')">Add selected currencies</button>
-
         </div>
       </ng-template>
     </div>

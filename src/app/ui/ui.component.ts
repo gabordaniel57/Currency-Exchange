@@ -3,11 +3,6 @@ import { CurrencyModel } from 'src/models/currency';
 import { DatePipe } from '@angular/common';
 import { ModalDismissReasons, NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from '@angular/common/http';
-import { elementEventFullName } from '@angular/compiler/src/view_compiler/view_compiler';
-
-
-
-
 @Component({
   selector: 'app-ui',
   templateUrl: './ui.component.html',
@@ -21,17 +16,14 @@ export class UIComponent implements OnInit {
   currentDay: any;
   observable: any;
   multiplicator: number = 1;
-
-
-  selectedCurrenciesForAddToArray: CurrencyModel[] = [];
-
   selectedDate: NgbDateStruct = { year: 9999, month: 99, day: 99 };
 
   selectedCurrency: CurrencyModel = new CurrencyModel();
 
-  selectedCurrencies: CurrencyModel[] = [
+  selectedCurrenciesForAddToArray: CurrencyModel[] = [];
 
-  ];
+  selectedCurrencies: CurrencyModel[] = [];
+
   //array cu toate datele de intrare
   allCurrencies: CurrencyModel[] = [
     new CurrencyModel(1, "€", "/assets/eu_flag.jpg", "Euro", "EUR"),
@@ -50,20 +42,14 @@ export class UIComponent implements OnInit {
     new CurrencyModel(14, "kr", "/assets/Panamanian balboa.png", "Panamanian balboa", "SEK"),
     new CurrencyModel(15, "$", "/assets/New Taiwan dollar.png", "New Taiwan dollar", "TWD"),
     new CurrencyModel(16, "₴", "/assets/Ukrainian hryvnia.png", "Ukrainian hryvnia", "UAH"),
-
-
-
-
-
-
-
-
   ];
+
   constructor(private datePipe: DatePipe, private modalService: NgbModal,
     private http: HttpClient) {
     this.setCurrentDate();
-
   }
+
+  //metoda utilizata de modal-ul angular
   open(content: any) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -72,9 +58,7 @@ export class UIComponent implements OnInit {
     });
   }
 
-
-
-
+  //metoda sterge elementul din array-urile selectedCurrencies si selectedCurrenciesForAddToArray
   closeDiv(element: any) {
     let index = this.selectedCurrenciesForAddToArray.indexOf(element);
     this.selectedCurrencies.splice(index, 1);
@@ -87,26 +71,25 @@ export class UIComponent implements OnInit {
       c.vRaportataLaValutaSelectata = Math.round((c.vRaportataLaValutaSelectata + Number.EPSILON) * 100) / 100;
       c.vMultiplicata = Math.round((c.vMultiplicata + Number.EPSILON) * 100) / 100;
     })
-
   }
+
   //metoda folosita pentru a calcula valoarea in raport cu valoarea unitara a valutei selectate
   calculeazaValoareaInRaportCuValutaSelectata() {
     this.selectedCurrencies.forEach(c => {
       c.vRaportataLaValutaSelectata = this.selectedCurrency.vUnitaraInEuro / c.vUnitaraInEuro;
       c.vMultiplicata = this.selectedCurrency.vMultiplicata * c.vRaportataLaValutaSelectata;
       c.vRaportataLaValutaSelectata = 1 / c.vRaportataLaValutaSelectata;
-
     })
   }
+
   // metoda folosita pentru a deduce valoarea unitara a elementelor din array in euro
   calculeazaValoareaUnitaraInEuro() {
     this.selectedCurrencies.forEach(c => {
       c.vUnitaraInEuro = 1 / c.valoareRaportataLaEuro;
       console.log(c.vUnitaraInEuro);
     })
-
-
   }
+
   // metoda folosita pentru a adauga elementele din lista de adaugare in array-ul cu valutele selectate pentru afisat
   addAllToArray() {
     this.selectedCurrencies = [];
@@ -115,23 +98,25 @@ export class UIComponent implements OnInit {
     });
     // this.selectedCurrenciesForAddToArray = [];
   }
+
   // metoda verifica daca arrayul include un element. Este utilizata inpreuna cu *ngIf pentru a schimba aspectul casutelor selectate
   checkIfExists(element: any) {
     return this.selectedCurrenciesForAddToArray.includes(element);
 
   }
+
   // metoda adauga elemente intr-o lista temporara
   addToSelectedCurrenciesForAddToArray(element: any) {
     if (this.selectedCurrenciesForAddToArray.includes(element) == false) {
       this.selectedCurrenciesForAddToArray.push(element)
-
-    } else if (this.selectedCurrenciesForAddToArray.includes(element)) {
+    }
+    else if (this.selectedCurrenciesForAddToArray.includes(element)) {
       let index = this.selectedCurrenciesForAddToArray.indexOf(element);
       this.selectedCurrenciesForAddToArray.splice(index, 1);
     }
-
   }
 
+  //metoda folosita pentru a adauga in array-ul cu valte selectate toate valutele
   selectAll() {
     this.allCurrencies.forEach(c => {
       if (this.selectedCurrenciesForAddToArray.includes(c) == false) {
@@ -139,10 +124,11 @@ export class UIComponent implements OnInit {
       }
     });
   }
+
+  //metoda curata datele din array
   deselectAll() {
     this.selectedCurrenciesForAddToArray = [];
   }
-
 
   //modifica clasa pentru divul selectat
   setCssClassForSelectedDiv(currency: CurrencyModel) {
@@ -172,6 +158,7 @@ export class UIComponent implements OnInit {
       console.log(this.observable.rates[c.abreviereDenumireValuta]);
     })
   }
+
   //metoda pregateste un string acceptat de formatul de url pe care se face GET
   formatSymbols() {
     let symbols = "";
@@ -182,7 +169,6 @@ export class UIComponent implements OnInit {
     return symbols;
   }
 
-
   setCurrentDate() {
     this.currentDate = new Date();
     this.currentDate = this.datePipe.transform(this.currentDate, "yyyy-MM-dd");
@@ -191,8 +177,8 @@ export class UIComponent implements OnInit {
     this.currentDay = this.datePipe.transform(this.currentDate, "dd");
     this.selectedDate = { year: (Number(this.currentYear)), month: (Number(this.currentMonth)), day: (Number(this.currentDay)) };
   }
-  //metoda pregateste un string acceptat de formatul de url pe care se face GET
 
+  //metoda pregateste un string acceptat de formatul de url pe care se face GET
   formatDateAsString() {
     let stringDate = this.selectedDate?.year + "-";
     if (this.selectedDate?.month < 10) {
@@ -207,6 +193,7 @@ export class UIComponent implements OnInit {
     };
     return stringDate;
   }
+
   // metoda face un request de tip get pe API-ul exchangeratesapi pentru a primi datele necesare
   //acestea sunt pe urma salvate in observable dupa care se executa un sir de functii pentru a procesa datele primite
   getRatesAjax(date: string, symbols: string) {
@@ -236,7 +223,6 @@ export class UIComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 
 }
 
